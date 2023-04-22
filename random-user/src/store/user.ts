@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "axios";
 import qs from "query-string";
-import { normalizeUser } from "@/utils";
+import { normalizeUser } from "@/utils/user";
 
 export interface User {
   gender: string;
@@ -51,15 +51,13 @@ export const useUserStore = defineStore("user", () => {
   const users = ref<{ [key: string]: User } | undefined>();
   const meta = ref<Meta | null>(null);
 
-  const fetch = async (page: number = 1, results: number = 30) => {
+  const fetch = async (page: number = 1, results: number = 5) => {
     try {
-      const { data } = await axios.get<UserApiResponse>(
-        `https://randomuser.me/api/${qs.stringify({
-          seed,
-          page,
-          results,
-        })}`
-      );
+      const url = qs.stringifyUrl({
+        url: "https://randomuser.me/api",
+        query: { seed, page, results },
+      });
+      const { data } = await axios.get<UserApiResponse>(url);
       const normalizedData = normalizeUser(data.results);
       ids.value = normalizedData.ids;
       users.value = normalizedData.users;

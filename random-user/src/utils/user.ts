@@ -1,5 +1,5 @@
 import { normalize, schema } from "normalizr";
-import { User } from "@/store/user";
+import type { User } from "@/store/user";
 
 const userEntity = new schema.Entity<User>(
   "users",
