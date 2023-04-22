@@ -5,3 +5,5 @@ yarn dev
 ```
 
 ## My Note
+
+1. url alias. [ref](https://dev.to/tilly/aliasing-in-vite-w-typescript-1lfo)
