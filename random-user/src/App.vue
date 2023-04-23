@@ -1,30 +1,49 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { useDisplay, useResults } from "@/utils";
+import Pagination from "@/components/Pagination.vue";
+
+const path = {
+  home: "/",
+  favorite: "/favorite",
+};
+
+const { results, onResultSelectChange } = useResults();
+const { display, changeDisplayMode } = useDisplay();
 </script>
 
-<template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+<template lang="pug">
+div(class="container mx-auto p-8")
+  div(class="flex justify-between items-center mb-8")
+    div(class="flex space-x-4")
+      router-link(
+        :to="path?.home"
+        class="opacity-50 text-lg underline text-violet-700"
+        :class="{'!opacity-100': $route.path === path?.home}"
+      ) All
+      router-link(
+        :to="path?.favorite"
+        class="opacity-50 text-lg underline text-violet-700"
+        :class="{'!opacity-100': $route.path === path?.favorite}"
+      ) Favorite
+    div(class="flex space-x-2 items-center")
+      select(class="border rounded" :value="results.toString()" @change="onResultSelectChange($event)")
+        option(value="10") 10
+        option(value="30") 30
+        option(value="50") 50
+      button(@click="changeDisplayMode('list')")
+        v-icon(
+          name="ri-menu-fill"
+          class="text-violet-700 opacity-50"
+          :class="{'!opacity-100': display === 'list'}"
+        )
+      button(@click="changeDisplayMode('grid')")
+        v-icon(
+          name="ri-layout-grid-line"
+          class="text-violet-700 opacity-50"
+          :class="{'!opacity-100': display === 'grid'}"
+        )
+  div
+    router-view/
+  div(class="py-8 flex justify-center")
+    Pagination/
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
