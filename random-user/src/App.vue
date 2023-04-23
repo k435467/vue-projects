@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDisplay, useResults } from "@/utils";
+import Pagination from "@/components/Pagination.vue";
 
 const path = {
   home: "/",
@@ -30,9 +31,19 @@ div(class="container mx-auto p-8")
         option(value="30") 30
         option(value="50") 50
       button(@click="changeDisplayMode('list')")
-        v-icon(name="ri-menu-fill" class="text-violet-700")
+        v-icon(
+          name="ri-menu-fill"
+          class="text-violet-700 opacity-50"
+          :class="{'!opacity-100': display === 'list'}"
+        )
       button(@click="changeDisplayMode('grid')")
-        v-icon(name="ri-layout-grid-line" class="text-violet-700")
+        v-icon(
+          name="ri-layout-grid-line"
+          class="text-violet-700 opacity-50"
+          :class="{'!opacity-100': display === 'grid'}"
+        )
   div
     router-view/
+  div(class="py-8 flex justify-center")
+    Pagination/
 </template>

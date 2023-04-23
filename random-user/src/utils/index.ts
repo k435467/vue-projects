@@ -9,7 +9,7 @@ export const useResults = (init: number = 30) => {
   watchEffect(() => {
     // watch the results qs and then update the ref
     const q = parseInt(route.query.results as string);
-    if (!isNaN(q)) {
+    if (Number.isInteger(q)) {
       results.value = q;
     }
   });
@@ -17,7 +17,7 @@ export const useResults = (init: number = 30) => {
   const onResultSelectChange = (e: Event) => {
     // change the results qs
     const results = parseInt((e.target as HTMLInputElement).value);
-    if (!isNaN(results)) {
+    if (Number.isInteger(results)) {
       const query = { ...route.query, results };
       router.replace({ path: route.path, query });
     }
