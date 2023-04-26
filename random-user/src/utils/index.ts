@@ -12,7 +12,7 @@ export const useResults = (init: number = 30) => {
   const results = computed({
     get: () => parseInt(route.query.results as string) || init,
     set: (v: number) => {
-      const query = { ...route.query, results: v };
+      const query = { ...route.query, results: v, page: 1 };
       router.replace({ path: route.path, query });
     },
   });
