@@ -1,24 +1,15 @@
 <script setup lang="ts">
 import { useUserStore } from "@/store/user";
-import type { User } from "@/store/user";
-import { ref, onBeforeMount, computed } from "vue";
+import { getName } from "@/utils/user";
+import { computed } from "vue";
 
 const props = defineProps<{
   userId: string;
 }>();
 const userStore = useUserStore();
 
-const user = ref<User>();
-const name = computed(() => {
-  if (user.value) {
-    const { title, first, last } = user.value.name;
-    return `${title} ${first} ${last}`;
-  }
-});
-
-onBeforeMount(() => {
-  user.value = userStore.getById(props.userId);
-});
+const user = computed(() => userStore.getById(props.userId));
+const name = computed(() => getName(user.value));
 </script>
 
 <template lang="pug">

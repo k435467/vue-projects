@@ -15,3 +15,10 @@ export const normalizeUser = (users: User[]) => {
     users: v.entities.users,
   };
 };
+
+export const getName = (user: User | undefined) => {
+  if (user) {
+    const { title, first, last } = user.name;
+    return `${title} ${first} ${last}`;
+  }
+};
