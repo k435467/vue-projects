@@ -1,5 +1,5 @@
 import { useUserStore } from "@/store/user";
-import { computed, onBeforeMount, ref, watchEffect } from "vue";
+import { computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
 export const initResults = 30;
@@ -8,22 +8,19 @@ export const resultOpts = [10, 30, 50];
 export const useResults = (init: number = 30) => {
   const router = useRouter();
   const route = useRoute();
-  const results = ref<number>(init);
 
-  watchEffect(() => {
-    // watch the results qs and then update the ref
-    const q = parseInt(route.query.results as string);
-    if (Number.isInteger(q)) {
-      results.value = q;
-    }
+  const results = computed({
+    get: () => parseInt(route.query.results as string) || init,
+    set: (v: number) => {
+      const query = { ...route.query, results: v };
+      router.replace({ path: route.path, query });
+    },
   });
 
   const onResultSelectChange = (e: Event) => {
-    // change the results qs
-    const results = parseInt((e.target as HTMLInputElement).value);
-    if (Number.isInteger(results)) {
-      const query = { ...route.query, results };
-      router.replace({ path: route.path, query });
+    const v = parseInt((e.target as HTMLInputElement).value);
+    if (Number.isInteger(v)) {
+      results.value = v;
     }
   };
 
@@ -35,21 +32,18 @@ type Display = "list" | "grid";
 export const useDisplay = (init: Display = "grid") => {
   const router = useRouter();
   const route = useRoute();
-  const display = ref<Display>(init);
 
-  watchEffect(() => {
-    // watch the display qs and then update the ref
-    if (route.query.display === "list" || route.query.display === "grid") {
-      display.value = route.query.display;
-    }
+  const display = computed({
+    get: () => (route.query.display as string) || init,
+    set: (v: string) => {
+      const query = { ...route.query, display: v };
+      router.replace({ path: route.path, query });
+    },
   });
 
-  const changeDisplayMode = (display: Display) => {
-    // change the display qs
-    const cur = route.query.display;
-    if (cur !== display) {
-      const query = { ...route.query, display };
-      router.replace({ path: route.path, query });
+  const changeDisplayMode = (v: Display) => {
+    if (v !== display.value) {
+      display.value = v;
     }
   };
 
@@ -69,20 +63,13 @@ export const usePagination = () => {
   });
 
   const route = useRoute();
-  watchEffect(
-    () => {
-      // watch the page qs and then fetch users
-      const page = parseInt((route.query.page ?? "1") as string);
-      if (Number.isInteger(page)) {
-        userStore.fetch(page, results.value);
-      }
-    },
-    {
-      onTrigger(event) {
-        console.log(event);
-      },
+  watchEffect(() => {
+    // watch the page qs and then fetch users
+    const page = parseInt((route.query.page || "1") as string);
+    if (Number.isInteger(page)) {
+      userStore.fetch(page, results.value);
     }
-  );
+  });
 
   return { curPage, tPages };
 };
