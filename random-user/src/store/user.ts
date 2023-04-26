@@ -51,7 +51,7 @@ export const useUserStore = defineStore("user", () => {
   const users = ref<{ [key: string]: User } | undefined>();
   const meta = ref<Meta | null>(null);
 
-  const fetch = async (page: number = 1, results: number = 5) => {
+  const fetch = async (page: number = 1, results: number = 30) => {
     try {
       const url = qs.stringifyUrl({
         url: "https://randomuser.me/api",

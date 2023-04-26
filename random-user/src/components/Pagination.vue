@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from "@/store/user";
-import { useResults } from "@/utils/index";
+import { useResults, getBtnArr } from "@/utils/index";
 import { computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
@@ -14,31 +14,10 @@ const curPage = computed(() => {
 });
 const tPages = computed(() => {
   const totalUsers = 3010;
-  return Math.floor(totalUsers / results.value);
+  return Math.ceil(totalUsers / results.value);
 });
 const pages = computed(() => {
-  if (!curPage.value) return [];
-  const a: (string | number)[] = [];
-
-  let btnCt = 5;
-  if (curPage.value < btnCt) {
-    for (let i = 1; i <= btnCt; ++i) a.push(i);
-    a.push("...", tPages.value);
-  } else if (tPages.value - curPage.value < btnCt) {
-    a.push(1, "...");
-    for (let i = tPages.value - 5; i <= tPages.value; ++i) a.push(i);
-  } else {
-    a.push(1, "...");
-    for (
-      let i = curPage.value - Math.floor(btnCt / 2);
-      i <= curPage.value + Math.ceil(btnCt / 2);
-      ++i
-    )
-      a.push(i);
-    a.push("...", tPages.value);
-  }
-
-  return a;
+  return getBtnArr(tPages.value, curPage.value);
 });
 
 // --
