@@ -1,23 +1,12 @@
 <script setup lang="ts">
-import { useUserStore } from "@/store/user";
-import { useResults, getBtnArr } from "@/utils/index";
-import { computed, watchEffect } from "vue";
+import { getBtnArr } from "@/utils/index";
+import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
-const userStore = useUserStore();
-const { results } = useResults();
+const props = defineProps<{ curPage?: number; tPages: number }>();
 
-// compute the pages array for render btns
-
-const curPage = computed(() => {
-  return userStore.meta?.page;
-});
-const tPages = computed(() => {
-  const totalUsers = 3010;
-  return Math.ceil(totalUsers / results.value);
-});
 const pages = computed(() => {
-  return getBtnArr(tPages.value, curPage.value);
+  return getBtnArr(props.tPages, props.curPage);
 });
 
 // --
@@ -26,9 +15,9 @@ const router = useRouter();
 const route = useRoute();
 
 const goToPage = (page: number | string) => {
-  if (curPage.value) {
-    if (page === "prev") page = Math.max(curPage.value - 1, 1);
-    if (page === "next") page = Math.min(curPage.value + 1, tPages.value);
+  if (props.curPage) {
+    if (page === "prev") page = Math.max(props.curPage - 1, 1);
+    if (page === "next") page = Math.min(props.curPage + 1, props.tPages);
   }
   if (Number.isInteger(page)) {
     router.replace({
@@ -37,14 +26,6 @@ const goToPage = (page: number | string) => {
     });
   }
 };
-
-watchEffect(() => {
-  // watch the page qs and then fetch users
-  const page = parseInt((route.query.page ?? "") as string);
-  if (Number.isInteger(page)) {
-    userStore.fetch(page, results.value);
-  }
-});
 </script>
 
 <template lang="pug">

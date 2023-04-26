@@ -1,4 +1,5 @@
-import { ref, watchEffect } from "vue";
+import { useUserStore } from "@/store/user";
+import { computed, onBeforeMount, ref, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
 export const initResults = 30;
@@ -53,6 +54,37 @@ export const useDisplay = (init: Display = "grid") => {
   };
 
   return { display, changeDisplayMode };
+};
+
+export const usePagination = () => {
+  const userStore = useUserStore();
+  const { results } = useResults();
+
+  const curPage = computed(() => {
+    return userStore.meta?.page;
+  });
+  const tPages = computed(() => {
+    const totalUsers = 3010;
+    return Math.ceil(totalUsers / results.value);
+  });
+
+  const route = useRoute();
+  watchEffect(
+    () => {
+      // watch the page qs and then fetch users
+      const page = parseInt((route.query.page ?? "1") as string);
+      if (Number.isInteger(page)) {
+        userStore.fetch(page, results.value);
+      }
+    },
+    {
+      onTrigger(event) {
+        console.log(event);
+      },
+    }
+  );
+
+  return { curPage, tPages };
 };
 
 /**

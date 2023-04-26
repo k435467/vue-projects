@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { initResults, resultOpts, useDisplay, useResults } from "@/utils";
-import Pagination from "@/components/Pagination.vue";
 
 const path = {
   home: "/",
@@ -42,6 +41,4 @@ div(class="container mx-auto p-8")
         )
   div
     router-view/
-  div(class="py-8 flex justify-center")
-    Pagination/
 </template>
