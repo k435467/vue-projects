@@ -20,7 +20,7 @@ const openUserModal = inject(userModalKey)!.openUserModal;
 <template lang="pug">
 tr(
   v-if="user && !isMobile"
-  class="h-20 odd:bg-white even:bg-slate-50 [&>td]:py-2"
+  class="h-20 odd:bg-white even:bg-slate-50 [&>td]:py-2 cursor-pointer"
   @click="openUserModal(userId)"
 )
   td
@@ -37,7 +37,7 @@ tr(
     p {{ user.phone }}
 div(
   v-else-if="user && isMobile"
-  class="py-2 w-full odd:bg-white even:bg-slate-50"
+  class="py-2 w-full odd:bg-white even:bg-slate-50 cursor-pointer"
   @click="openUserModal(userId)"
 )
   img(

@@ -18,7 +18,7 @@ const openUserModal = inject(userModalKey)!.openUserModal;
 <template lang="pug">
 div(
   v-if="user"
-  class="group transition duration-300 relative w-full aspect-square bg-no-repeat bg-cover rounded overflow-hidden"
+  class="group transition duration-300 relative w-full aspect-square bg-no-repeat bg-cover rounded overflow-hidden cursor-pointer"
   :style="{backgroundImage: `url(${user?.picture.large})`}"
   @click="openUserModal(userId)"
 )

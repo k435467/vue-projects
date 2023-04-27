@@ -67,7 +67,8 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
-  const getById = (uuid: string) => users.value?.[uuid];
+  const getById = (uuid: string | undefined) =>
+    uuid ? users.value?.[uuid] : undefined;
 
   return {
     ids,

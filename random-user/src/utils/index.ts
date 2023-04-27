@@ -75,6 +75,7 @@ export const usePagination = () => {
 };
 
 /**
+ * for pagination
  * @param t total pages
  * @param p the current page
  * @param b buffer size
