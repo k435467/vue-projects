@@ -20,11 +20,11 @@ Teleport(to="body")
     div(
       v-show="visible"
       @click.self="emit('update:visible', false)"
-      class="transition duration-300 fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
+      class="transition duration-300 fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50"
     )
-      div(class="max-w-2xl p-6 mx-4 bg-white rounded-md shadow-xl")
+      div(class="max-w-2xl min-w-[360px] p-6 mx-4 bg-white rounded-md shadow-xl")
         div(class="flex items-center justify-between")
-          h3( class="text-2xl") {{ props.title }}
+          h3( class="text-2xl") {{ title }}
           v-icon(
             @click="emit('update:visible', false)"
             name="ri-close-fill"
@@ -32,12 +32,13 @@ Teleport(to="body")
           )
         div(class="my-4")
           slot/
-        button(
-          @click="emit('update:visible', false)"
-          class="px-6 py-2 border text-violet-700 border-violet-700 rounded"
-        ) Cancel
-        button(
-          @click="emit('ok')"
-          class="px-6 py-2 ml-2 text-white bg-violet-700 rounded"
-        ) {{ props.okText }}
+        div(class="flex justify-end")
+          button(
+            @click="emit('update:visible', false)"
+            class="px-6 py-2 border text-violet-700 border-violet-700 rounded"
+          ) Cancel
+          button(
+            @click="emit('ok')"
+            class="px-6 py-2 ml-2 text-white bg-violet-700 rounded"
+          ) {{ okText }}
 </template>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, shallowRef } from "vue";
 import axios from "axios";
 import qs from "query-string";
 import { normalizeUser } from "@/utils/user";
@@ -48,7 +48,7 @@ const seed = "12j0sk";
 
 export const useUserStore = defineStore("user", () => {
   const ids = ref<string[]>([]);
-  const users = ref<{ [key: string]: User } | undefined>();
+  const users = shallowRef<{ [key: string]: User } | undefined>();
   const meta = ref<Meta | null>(null);
 
   const fetch = async (page: number = 1, results: number = 30) => {
@@ -67,8 +67,8 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
-  const getById = (uuid: string | undefined) =>
-    uuid ? users.value?.[uuid] : undefined;
+  const getById = (id: string | undefined) =>
+    id ? users.value?.[id] : undefined;
 
   return {
     ids,

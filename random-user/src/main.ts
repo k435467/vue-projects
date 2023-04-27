@@ -10,6 +10,8 @@ import {
   RiArrowDropLeftLine,
   RiArrowDropRightLine,
   RiCloseFill,
+  RiHeartLine,
+  RiHeartFill,
 } from "oh-vue-icons/icons";
 import VueScreen from "vue-screen";
 
@@ -18,7 +20,9 @@ addIcons(
   RiLayoutGridLine,
   RiArrowDropLeftLine,
   RiArrowDropRightLine,
-  RiCloseFill
+  RiCloseFill,
+  RiHeartLine,
+  RiHeartFill
 );
 
 const pinia = createPinia();

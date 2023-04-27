@@ -4,14 +4,23 @@ import { getName } from "@/utils/user";
 import { computed } from "vue";
 import { inject } from "vue";
 import { userModalKey } from "@/utils/user";
+import FavoriteIcon from "./FavoriteIcon.vue";
+import { useFavoriteStore } from "@/store/favorite";
 
 const props = defineProps<{
   userId: string;
   isMobile?: boolean;
 }>();
 const userStore = useUserStore();
+const favoriteStore = useFavoriteStore();
 
-const user = computed(() => userStore.getById(props.userId));
+const isFavorite = computed(() => favoriteStore.has(props.userId));
+
+const user = computed(() =>
+  isFavorite.value
+    ? favoriteStore.getById(props.userId)
+    : userStore.getById(props.userId)
+);
 const name = computed(() => getName(user.value));
 
 const openUserModal = inject(userModalKey)!.openUserModal;
@@ -35,6 +44,8 @@ tr(
     p {{ user.email }}
   td
     p {{ user.phone }}
+  td
+    FavoriteIcon(:checked="isFavorite" @click="favoriteStore.toggle(userId, user)")/
 div(
   v-else-if="user && isMobile"
   class="py-2 w-full odd:bg-white even:bg-slate-50 cursor-pointer"
@@ -42,10 +53,12 @@ div(
 )
   img(
     class="w-16 aspect-square rounded"
-    :src="user?.picture.large"
+    :src="user.picture.large"
     alt=""
   )
-  p(class="font-bold") {{ name }}
+  div(class="flex items-center gap-2")
+    p(class="font-bold") {{ name }}
+    FavoriteIcon(:checked="isFavorite" @click="favoriteStore.toggle(userId, user)")/
   p {{ user.email }}
   p {{ user.phone }}
 </template>

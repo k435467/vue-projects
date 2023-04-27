@@ -1,15 +1,10 @@
 import * as VueRouter from "vue-router";
-import All from "@/components/All.vue";
-import Favorite from "@/components/Favorite.vue";
+import App from "@/App.vue";
 
 const routes: VueRouter.RouteRecordRaw[] = [
   {
-    path: "/",
-    component: All,
-  },
-  {
-    path: "/favorite",
-    component: Favorite,
+    path: "/:pathMatch(.*)*",
+    component: App,
   },
 ];
 

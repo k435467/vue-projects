@@ -12,3 +12,4 @@ yarn dev
 4. define const vars for template [ref](https://stackoverflow.com/questions/42662144/how-could-i-use-const-in-vue-template)
 5. type annotation on event handler [ref](https://stackoverflow.com/questions/67434135/vue-3-typescript-warning-on-vue-emit-and-event-object-is-possibly-null)
 6. pass reactive as prop, then use it with v-model. toRefs(). Gets error.
+7. router \* [ref](https://router.vuejs.org/guide/migration/#removed-star-or-catch-all-routes)
