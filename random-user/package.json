@@ -15,7 +15,8 @@
     "pinia": "^2.0.35",
     "query-string": "^8.1.0",
     "vue": "^3.2.47",
-    "vue-router": "4"
+    "vue-router": "4",
+    "vue-screen": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.13",
