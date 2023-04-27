@@ -581,6 +581,11 @@ csstype@^2.6.8:
   resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.21.tgz"
   integrity sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
 
+dayjs@^1.11.7:
+  version "1.11.7"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
+  integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
+
 de-indent@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/de-indent/-/de-indent-1.0.2.tgz"
@@ -1475,6 +1480,11 @@ vue-router@4:
   integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
   dependencies:
     "@vue/devtools-api" "^6.4.5"
+
+vue-screen@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/vue-screen/-/vue-screen-2.2.0.tgz#70733bcae6cfc82dc61b6eb68a1d49f5d61dc5a5"
+  integrity sha512-M5gpl+6gsDlcEADvmrSWPmEu431+n+SRi0n8JOcZcH3uon+6SRJn4lH/AhcOp7lGXXsD0S7FkalPeopK+kTDow==
 
 vue-template-compiler@^2.7.14:
   version "2.7.14"

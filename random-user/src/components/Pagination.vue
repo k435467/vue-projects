@@ -3,7 +3,10 @@ import { getBtnArr } from "@/utils/index";
 import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
-const props = defineProps<{ curPage?: number; tPages: number }>();
+const props = defineProps<{
+  curPage?: number;
+  tPages: number;
+}>();
 
 const pages = computed(() => {
   return getBtnArr(props.tPages, props.curPage);
@@ -29,7 +32,7 @@ const goToPage = (page: number | string) => {
 </script>
 
 <template lang="pug">
-div(class="flex space-x-2")
+div(v-if="tPages > 0" class="flex space-x-2")
   button(
     class="p-2 text-sm text-gray-900 hover:bg-gray-50 border rounede flex justify-center items-center"
     @click="goToPage('prev')"

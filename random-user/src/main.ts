@@ -9,17 +9,24 @@ import {
   RiLayoutGridLine,
   RiArrowDropLeftLine,
   RiArrowDropRightLine,
+  RiCloseFill,
+  RiHeartLine,
+  RiHeartFill,
 } from "oh-vue-icons/icons";
+import VueScreen from "vue-screen";
 
 addIcons(
   RiMenuFill,
   RiLayoutGridLine,
   RiArrowDropLeftLine,
-  RiArrowDropRightLine
+  RiArrowDropRightLine,
+  RiCloseFill,
+  RiHeartLine,
+  RiHeartFill
 );
 
 const pinia = createPinia();
 const app = createApp(App);
 
 app.component("v-icon", OhVueIcon);
-app.use(router).use(pinia).mount("#app");
+app.use(VueScreen, "tailwind").use(router).use(pinia).mount("#app");

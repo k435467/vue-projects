@@ -1,3 +1,4 @@
+import { useFavoriteStore } from "@/store/favorite";
 import { useUserStore } from "@/store/user";
 import { computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -50,12 +51,12 @@ export const useDisplay = (init: Display = "grid") => {
   return { display, changeDisplayMode };
 };
 
-export const usePagination = () => {
+export const useUserPagination = (init = 1) => {
   const userStore = useUserStore();
   const { results } = useResults();
 
   const curPage = computed(() => {
-    return userStore.meta?.page;
+    return userStore.meta?.page ?? init;
   });
   const tPages = computed(() => {
     const totalUsers = 3010;
@@ -63,18 +64,41 @@ export const usePagination = () => {
   });
 
   const route = useRoute();
-  watchEffect(() => {
-    // watch the page qs and then fetch users
-    const page = parseInt((route.query.page || "1") as string);
+  const qsPage = computed(() => parseInt((route.query.page || "1") as string));
+
+  const fetch = (page: number, results: number) => {
     if (Number.isInteger(page)) {
-      userStore.fetch(page, results.value);
+      userStore.fetch(page, results);
     }
+  };
+
+  return { curPage, tPages, qsPage, fetch };
+};
+
+export const useFavoritePagination = (init: number = 1) => {
+  const router = useRouter();
+  const route = useRoute();
+
+  const curPage = computed({
+    get: () => parseInt(route.query.page as string) || init,
+    set: (v: number) => {
+      const query = { ...route.query, page: v };
+      router.replace({ path: route.path, query });
+    },
   });
+
+  const favoriteStore = useFavoriteStore();
+  const { results } = useResults();
+
+  const tPages = computed(() =>
+    Math.ceil(favoriteStore.ids.length / results.value)
+  );
 
   return { curPage, tPages };
 };
 
 /**
+ * for pagination
  * @param t total pages
  * @param p the current page
  * @param b buffer size
