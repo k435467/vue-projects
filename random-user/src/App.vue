@@ -117,7 +117,7 @@ div(class="container mx-auto p-8")
           :class="{'!opacity-100': display === 'grid'}"
         )
   div
-    Users(:ids="ids")/
+    Users(:ids="ids" :loading="userStore.loading")/
   div(class="py-8 flex justify-center")
     Pagination(v-bind="pagination")/
   UserModal/

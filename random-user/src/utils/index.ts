@@ -84,8 +84,9 @@ export const useUserPagination = (init = 1) => {
 
   const fetch = (page: number, results: number) => {
     if (Number.isInteger(page) && Number.isInteger(results)) {
-      userStore.fetch(page, results);
+      return userStore.fetch(page, results);
     }
+    return Promise.reject();
   };
 
   return { curPage, tPages, fetch };

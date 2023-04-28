@@ -50,9 +50,11 @@ export const useUserStore = defineStore("user", () => {
   const ids = ref<string[]>([]);
   const users = shallowRef<{ [key: string]: User } | undefined>();
   const meta = ref<Meta | null>(null);
+  const loading = ref<boolean>(false);
 
   const fetch = async (page: number = 1, results: number = 30) => {
     try {
+      loading.value = true;
       const url = qs.stringifyUrl({
         url: "https://randomuser.me/api",
         query: { seed, page, results },
@@ -64,6 +66,8 @@ export const useUserStore = defineStore("user", () => {
       meta.value = data.info;
     } catch (e) {
       console.error(e);
+    } finally {
+      loading.value = false;
     }
   };
 
@@ -74,6 +78,7 @@ export const useUserStore = defineStore("user", () => {
     ids,
     users,
     meta,
+    loading,
     fetch,
     getById,
   };

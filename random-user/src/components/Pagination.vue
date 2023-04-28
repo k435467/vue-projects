@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { getBtnArr, usePage } from "@/utils/index";
 import { computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
 
 const props = defineProps<{
   curPage?: number;
