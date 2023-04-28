@@ -16,6 +16,8 @@ import { useFavoriteStore } from "./store/favorite";
 import { useUserStore } from "./store/user";
 import Users from "./components/Users.vue";
 
+// -- route
+
 const path = {
   home: "/",
   favorite: "/favorite",
@@ -32,20 +34,15 @@ const goTo = (path: string) => {
   });
 };
 
+// --
+
 const { results, onResultSelectChange } = useResults();
 const { display, changeDisplayMode } = useDisplay();
 
-// pagination
+// -- pagination
 
 const userPagination = useUserPagination();
 const favoritePagination = useFavoritePagination();
-
-watchEffect(() => {
-  // fetch users when route and qs change
-  // TODO - redundant fetch
-  if (route.path === path.home)
-    userPagination.fetch(userPagination.curPage.value, results.value);
-});
 
 const pagination = computed(() => {
   const p = route.path === path.home ? userPagination : favoritePagination;
@@ -55,7 +52,7 @@ const pagination = computed(() => {
   };
 });
 
-// ids
+// -- ids
 
 const userStore = useUserStore();
 const favoriteStore = useFavoriteStore();
@@ -67,6 +64,14 @@ const ids = computed(() => {
     const startId = (pagination.value.curPage - 1) * results.value;
     return favoriteStore.ids.slice(startId, startId + results.value);
   }
+});
+
+// -- fetch
+
+watchEffect(() => {
+  // fetch users when route and qs change
+  if (route.path === path.home)
+    userStore.fetch(userPagination.curPage.value, results.value);
 });
 
 // -- provide user modal

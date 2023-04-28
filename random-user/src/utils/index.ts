@@ -1,6 +1,6 @@
 import { useFavoriteStore } from "@/store/favorite";
 import { useUserStore } from "@/store/user";
-import { computed, watchEffect } from "vue";
+import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
 // -- results
@@ -73,7 +73,6 @@ export const usePage = (init = 1) => {
 };
 
 export const useUserPagination = (init = 1) => {
-  const userStore = useUserStore();
   const { results } = useResults();
 
   const curPage = usePage(init);
@@ -82,14 +81,7 @@ export const useUserPagination = (init = 1) => {
     return Math.ceil(totalUsers / results.value);
   });
 
-  const fetch = (page: number, results: number) => {
-    if (Number.isInteger(page) && Number.isInteger(results)) {
-      return userStore.fetch(page, results);
-    }
-    return Promise.reject();
-  };
-
-  return { curPage, tPages, fetch };
+  return { curPage, tPages };
 };
 
 export const useFavoritePagination = (init: number = 1) => {
