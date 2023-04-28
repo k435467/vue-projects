@@ -3,6 +3,8 @@ import { useUserStore } from "@/store/user";
 import { computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
+// -- results
+
 export const initResults = 30;
 export const resultOpts = [10, 30, 50];
 
@@ -28,6 +30,8 @@ export const useResults = (init: number = 30) => {
   return { results, onResultSelectChange };
 };
 
+// -- display mode
+
 type Display = "list" | "grid";
 
 export const useDisplay = (init: Display = "grid") => {
@@ -51,41 +55,44 @@ export const useDisplay = (init: Display = "grid") => {
   return { display, changeDisplayMode };
 };
 
-export const useUserPagination = (init = 1) => {
-  const userStore = useUserStore();
-  const { results } = useResults();
+// -- pagination
 
-  const curPage = computed(() => {
-    return userStore.meta?.page ?? init;
-  });
-  const tPages = computed(() => {
-    const totalUsers = 3010;
-    return Math.ceil(totalUsers / results.value);
-  });
-
-  const route = useRoute();
-  const qsPage = computed(() => parseInt((route.query.page || "1") as string));
-
-  const fetch = (page: number, results: number) => {
-    if (Number.isInteger(page)) {
-      userStore.fetch(page, results);
-    }
-  };
-
-  return { curPage, tPages, qsPage, fetch };
-};
-
-export const useFavoritePagination = (init: number = 1) => {
+export const usePage = (init = 1) => {
   const router = useRouter();
   const route = useRoute();
 
-  const curPage = computed({
+  const page = computed({
     get: () => parseInt(route.query.page as string) || init,
     set: (v: number) => {
       const query = { ...route.query, page: v };
       router.replace({ path: route.path, query });
     },
   });
+
+  return page;
+};
+
+export const useUserPagination = (init = 1) => {
+  const userStore = useUserStore();
+  const { results } = useResults();
+
+  const curPage = usePage(init);
+  const tPages = computed(() => {
+    const totalUsers = 3010;
+    return Math.ceil(totalUsers / results.value);
+  });
+
+  const fetch = (page: number, results: number) => {
+    if (Number.isInteger(page) && Number.isInteger(results)) {
+      userStore.fetch(page, results);
+    }
+  };
+
+  return { curPage, tPages, fetch };
+};
+
+export const useFavoritePagination = (init: number = 1) => {
+  const curPage = usePage(init);
 
   const favoriteStore = useFavoriteStore();
   const { results } = useResults();
@@ -140,3 +147,5 @@ export const getBtnArr = (t: number, p: number | undefined, b: number = 2) => {
 
   return a;
 };
+
+// --

@@ -44,7 +44,7 @@ watchEffect(() => {
   // fetch users when route and qs change
   // TODO - redundant fetch
   if (route.path === path.home)
-    userPagination.fetch(userPagination.qsPage.value, results.value);
+    userPagination.fetch(userPagination.curPage.value, results.value);
 });
 
 const pagination = computed(() => {

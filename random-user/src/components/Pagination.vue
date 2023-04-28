@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getBtnArr } from "@/utils/index";
+import { getBtnArr, usePage } from "@/utils/index";
 import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
@@ -14,20 +14,14 @@ const pages = computed(() => {
 
 // --
 
-const router = useRouter();
-const route = useRoute();
+const page = usePage();
 
-const goToPage = (page: number | string) => {
+const goToPage = (p: number | string) => {
   if (props.curPage) {
-    if (page === "prev") page = Math.max(props.curPage - 1, 1);
-    if (page === "next") page = Math.min(props.curPage + 1, props.tPages);
+    if (p === "prev") p = Math.max(props.curPage - 1, 1);
+    if (p === "next") p = Math.min(props.curPage + 1, props.tPages);
   }
-  if (Number.isInteger(page)) {
-    router.replace({
-      path: route.path,
-      query: { ...route.query, page },
-    });
-  }
+  if (typeof p === "number") page.value = p;
 };
 </script>
 
