@@ -1,30 +1,47 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { reactive } from "vue";
+import type { Pair } from "./types";
+import { v4 as uuid } from "uuid";
+
+const initInput: Pair[] = [
+  {
+    id: uuid(),
+    key: "nav.header.creator",
+    value: "3D Fabric Creator",
+  },
+  {
+    id: uuid(),
+    key: "nav.icon",
+    value: "icon name",
+  },
+];
+
+const input: Pair[] = reactive(initInput);
+
+const addPair = () => {
+  input.push({
+    id: uuid(),
+    key: "",
+    value: "",
+  });
+};
+
+const removePair = (id: string) => {
+  const idx = input.findIndex((v) => v.id === id);
+  if (idx >= 0) input.splice(idx, 1);
+};
 </script>
 
-<template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+<template lang="pug">
+div(class="container mx-auto p-4")
+  h1(class="text-2xl font-bold mb-2") Nested Key-Value Pair Tree Viewer
+  div(class="grid grid-cols-2 gap-6")
+    div(class="border border-slate-500 p-3 space-y-4")
+      div(class="flex justify-end")
+        button(class="text-slate-800 bg-slate-200 p-2 font-bold" @click="addPair") + Add New Pair
+      div(v-for="pair in input" :key="pair.id" class="grid grid-cols-[1fr_1fr_min(10%,3rem)] gap-3")
+        input(class="w-full bg-transparent border border-slate-500 outline-none px-2 py-1")
+        input(class="w-full bg-transparent border border-slate-500 outline-none px-2 py-1")
+        button(class="w-full text-slate-800 bg-slate-200" @click="removePair(pair.id)") -
+    div(class="border border-slate-500 p-3") 2
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
