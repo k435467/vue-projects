@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useInputs } from "./utils";
+import { usePairs } from "./utils";
 import Tree from "./components/Tree.vue";
 
-const { pairs, parsedObj, addPair, removePair } = useInputs();
+const { pairs, parsedObj, addPair, removePair } = usePairs();
 </script>
 
 <template lang="pug">

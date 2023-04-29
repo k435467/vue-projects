@@ -30,7 +30,7 @@ export const initInputs: Pair[] = [
   },
 ];
 
-export const parsePairs = (pairs: Pair[]) => {
+export const parsePairsToObj = (pairs: Pair[]) => {
   const o: any = {};
 
   for (const pair of pairs) {
@@ -59,10 +59,10 @@ export const parsePairs = (pairs: Pair[]) => {
   return o as Object;
 };
 
-export const useInputs = () => {
+export const usePairs = () => {
   const pairs: Pair[] = reactive(initInputs);
 
-  const parsedObj = computed(() => parsePairs(pairs));
+  const parsedObj = computed(() => parsePairsToObj(pairs));
 
   const addPair = () => {
     pairs.push({
