@@ -1,5 +1,5 @@
 import { normalize, schema } from "normalizr";
-import type { User } from "@/store/user";
+import type { User } from "@/types";
 import { InjectionKey } from "vue";
 
 const userEntity = new schema.Entity<User>(

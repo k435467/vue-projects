@@ -1,14 +1,16 @@
 import { useFavoriteStore } from "@/store/favorite";
-import { useUserStore } from "@/store/user";
 import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import type { Display } from "@/types";
+
+export const mobileWidth = 768;
+export const initResults = 30;
+export const resultOpts = [10, 30, 50];
+const totalUsers = 3010;
 
 // -- results
 
-export const initResults = 30;
-export const resultOpts = [10, 30, 50];
-
-export const useResults = (init: number = 30) => {
+export const useResults = (init: number = initResults) => {
   const router = useRouter();
   const route = useRoute();
 
@@ -31,8 +33,6 @@ export const useResults = (init: number = 30) => {
 };
 
 // -- display mode
-
-type Display = "list" | "grid";
 
 export const useDisplay = (init: Display = "grid") => {
   const router = useRouter();
@@ -57,7 +57,7 @@ export const useDisplay = (init: Display = "grid") => {
 
 // -- pagination
 
-export const usePage = (init = 1) => {
+export const usePage = (init: number = 1) => {
   const router = useRouter();
   const route = useRoute();
 
@@ -72,12 +72,11 @@ export const usePage = (init = 1) => {
   return page;
 };
 
-export const useUserPagination = (init = 1) => {
+export const useUserPagination = (init: number = 1) => {
   const { results } = useResults();
 
   const curPage = usePage(init);
   const tPages = computed(() => {
-    const totalUsers = 3010;
     return Math.ceil(totalUsers / results.value);
   });
 
