@@ -1,48 +1,9 @@
 import { defineStore } from "pinia";
 import { ref, shallowRef } from "vue";
-import axios, { CancelTokenSource } from "axios";
+import axios from "axios";
 import qs from "query-string";
 import { normalizeUser } from "@/utils/user";
-
-export interface User {
-  gender: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  location: {
-    country: string;
-    city: string;
-  };
-  email: string;
-  login: {
-    uuid: string;
-    username: string;
-  };
-  dob: {
-    date: string;
-    age: number;
-  };
-  phone: string;
-  cell: string;
-  picture: {
-    large: string;
-    medium: string;
-    thumbnail: string;
-  };
-}
-
-interface Meta {
-  seed: string;
-  results: number;
-  page: number;
-}
-
-interface UserApiResponse {
-  results: User[];
-  info: Meta;
-}
+import type { User, Meta, UserApiResponse } from "@/types";
 
 const seed = "12j0sk";
 
@@ -55,10 +16,7 @@ export const useUserStore = defineStore("user", () => {
 
   const fetch = async (page: number, results: number) => {
     try {
-      if (controller) {
-        // cancel previous fetch
-        controller.abort();
-      }
+      if (controller) controller.abort(); // cancel previous fetch
 
       loading.value = true;
       const url = qs.stringifyUrl({
