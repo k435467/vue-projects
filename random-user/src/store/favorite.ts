@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
-import { User } from "./user";
+import type { User } from "@/types";
 
 export const useFavoriteStore = defineStore("favorite", () => {
   const ids: string[] = reactive([]);

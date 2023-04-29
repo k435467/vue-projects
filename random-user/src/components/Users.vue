@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { provide, reactive } from "vue";
 import Card from "./Card.vue";
 import List from "./List.vue";
 import { useDisplay } from "@/utils";
+import { userModalKey } from "@/utils/user";
+import UserModal from "@/components/UserModal.vue";
 
 const props = defineProps<{
   ids: string[];
@@ -9,6 +12,23 @@ const props = defineProps<{
 }>();
 
 const { display } = useDisplay();
+
+// -- provide user modal
+
+const userModal = reactive({
+  id: "",
+  show: false,
+});
+
+const openUserModal = (id: string) => {
+  userModal.id = id;
+  userModal.show = true;
+};
+
+provide(userModalKey, {
+  userModal,
+  openUserModal,
+});
 </script>
 
 <template lang="pug">
@@ -25,4 +45,5 @@ div(
   div(v-else)
     List(:ids="ids")
 p(v-else class="text-slate-400 text-center") Empty
+UserModal/
 </template>

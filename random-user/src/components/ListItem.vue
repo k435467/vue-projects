@@ -27,6 +27,7 @@ const openUserModal = inject(userModalKey)!.openUserModal;
 </script>
 
 <template lang="pug">
+//- desktop: table
 tr(
   v-if="user && !isMobile"
   class="h-20 odd:bg-white even:bg-slate-50 [&>td]:py-2 cursor-pointer"
@@ -46,6 +47,7 @@ tr(
     p {{ user.phone }}
   td
     FavoriteIcon(:checked="isFavorite" @click="favoriteStore.toggle(userId, user)")/
+//- mobile
 div(
   v-else-if="user && isMobile"
   class="py-2 w-full odd:bg-white even:bg-slate-50 cursor-pointer"
